@@ -49,14 +49,30 @@ Returns List of ShowDetails.
     "ticket_price": "250"
 }*
 
-4. Bulk creation of seatInventory
+4. Bulk creation of seatInventory, say for a new movie, creation of all shows for the next 7 days in one API.
 
 This service and other microservices use the common module **platform-model**. This has all the model classes, REST request response objects and all the
 JPA Entity objects.
 
 
 **BookingService API :**
+1. POST /api/v1/ticketBooking
+*{
+    "movie_name": "Pathaan",
+    "theater_name": "PVR",
+    "show": "EVENING",
+    "show_date": "2022-01-10"
+    "seat_count": ""
+}*
+This operation adds an entry to BookingDetails table and updates ShowDetails table with reduced seat count.
+Both should happen in 1 transaction. Here discount rules, if any, are applied.
+
+2. DELETE /api/v1/ticketBooking/{id}
+This operation cancels the booking, deletes entry to BookingDetails table and updates ShowDetails table in 1 transaction.
+
+User-id is needed for both transactions. 
 
 TBD :
+Unit test cases
 General cleanup and review of code.
 Log not coming up in console
