@@ -72,6 +72,26 @@ This operation cancels the booking, deletes entry to BookingDetails table and up
 
 User-id is needed for both transactions. 
 
+**Non Functional Requirements**
+- Scalability and Availability - For scalability the microservices need to be deployed on public cloud 
+infrastructure like AWS, preferably on managed container services like Fargate.
+
+- Caching - As the platform is upscaled to extend to countries and more cities, browsing through list of 
+theaters, movies etc needs to have caching instead of fetching from database everytime. For this distributed 
+in-memory cache, Redis is a choice.
+
+- Security -  all data inside the system or its part should be protected against malware attacks or 
+unauthorized access. Security NFR can include specific security standards and/or encryption
+methods, types of  malware attacks to fend off, guidelines like no storage of hard coded 
+sensitive information.
+
+- Monetize platform - Theater owners while onboarding their theater onto the platform need to pay 
+'fees' which can be based on multiple variables like number of screens in the theater, theater location etc.
+Also users while booking tickets need to pay a 'convenience' fee for getting the services.
+Advertisements on the platform site(mobile/desktop)
+
+- Integration with payment gateway - Booking Service needs to have integration with payment gateways like RazorPay
+
 TBD :
 Unit test cases
 General cleanup and review of code.
