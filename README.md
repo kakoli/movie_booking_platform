@@ -42,17 +42,22 @@ This is modelled into Controller, Service and Repository packages
 2. GET api/v1/seatInventory/theater/{theaterName}/movie/{movieName}
 Returns List of ShowDetails.
 
-3. PUT api/v1/seatInventory/theater/{theaterName}/movie/{movieName}
+3. PUT api/v1/seatInventory
 
 *{
-    "seat_count": "100",
-    "ticket_price": "250"
+    "movie_name": "Pathaan",
+    "theater_name": "PVR",
+    "seat_count": 50,
+    "ticket_price": 250.70
 }*
 
-4. Bulk creation of seatInventory, say for a new movie, creation of all shows for the next 7 days in one API.
+4. DELETE /api/v1/seatInventory/{showId}
+
+5. Bulk creation of seatInventory, say for a new movie, creation of all shows for the next 7 days in one API.
 
 This service and other microservices use the common module **platform-model**. This has all the model classes, REST request response objects and all the
 JPA Entity objects.
+Have implemented the first 3 APIs.
 
 
 **BookingService API :**
