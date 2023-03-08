@@ -22,13 +22,13 @@ public class ShowDetailsRequest {
     @JsonProperty("theater_name")
     private String theaterName;
 
-    @JsonProperty("show")
-    private String show;
+    @JsonProperty("show_time")
+    private String showTime;
 
     @JsonProperty("show_date")
     private String showDate;
 
-    @JsonProperty("seat_cnt")
+    @JsonProperty("seat_count")
     private Integer seatCnt;
 
     @JsonProperty("ticket_price")

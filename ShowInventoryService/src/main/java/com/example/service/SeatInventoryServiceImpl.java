@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
@@ -49,13 +50,36 @@ public class SeatInventoryServiceImpl implements SeatInventoryService {
         ShowDetails show = ShowDetails.builder()
                 .movie_id(movie.get().getMovieId())
                 .theater_id(theater.get().getTheaterId())
-                .show_time(input.getShow())
+                .show_time(input.getShowTime())
                 .show_date(showDate)
                 .build();
         System.out.println(show.getShow_date());
         show = showRepo.save(show);
         log.info(show.getShow_date() + " Created show id " +show.getShowId());
         return show;
+    }
+
+    @Override
+    public int updateShowInventory(ShowDetailsRequest input) throws InputValidationException {
+        Optional<Theater> theater = theaterRepo.findTheaterByName(input.getTheaterName());
+        Optional<Movie> movie = movieRepo.findMovieByName(input.getMovieName());
+
+        int updatedRows = showRepo.updateShow(input.getSeatCnt(), input.getTicketPrice(), theater.get().getTheaterId(),
+                            movie.get().getMovieId());
+        log.info("Rows updated " + updatedRows);
+        return  updatedRows;
+    }
+
+
+    @Override
+    public List<ShowDetails> getAllShows(String theaterName, String movieName) {
+        Optional<Movie> movie = movieRepo.findMovieByName(movieName);
+        Optional<Theater> theater = theaterRepo.findTheaterByName(theaterName);
+
+        List<ShowDetails> showList = showRepo.findAllShows(theater.get().getTheaterId(),
+                                                            movie.get().getMovieId());
+        log.info("Shows returned " +showList.size());
+        return showList;
     }
 
 }
