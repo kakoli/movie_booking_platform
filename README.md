@@ -42,21 +42,62 @@ This is modelled into Controller, Service and Repository packages
 2. GET api/v1/seatInventory/theater/{theaterName}/movie/{movieName}
 Returns List of ShowDetails.
 
-3. PUT api/v1/seatInventory/theater/{theaterName}/movie/{movieName}
+3. PUT api/v1/seatInventory
 
 *{
-    "seat_count": "100",
-    "ticket_price": "250"
+    "movie_name": "Pathaan",
+    "theater_name": "PVR",
+    "seat_count": 50,
+    "ticket_price": 250.70
 }*
 
-4. Bulk creation of seatInventory
+4. DELETE /api/v1/seatInventory/{showId}
+
+5. Bulk creation of seatInventory, say for a new movie, creation of all shows for the next 7 days in one API.
 
 This service and other microservices use the common module **platform-model**. This has all the model classes, REST request response objects and all the
 JPA Entity objects.
+Have implemented the first 3 APIs.
 
 
 **BookingService API :**
+1. POST /api/v1/ticketBooking
+*{
+    "movie_name": "Pathaan",
+    "theater_name": "PVR",
+    "show": "EVENING",
+    "show_date": "2022-01-10"
+    "seat_count": ""
+}*
+This operation adds an entry to BookingDetails table and updates ShowDetails table with reduced seat count.
+Both should happen in 1 transaction. Here discount rules, if any, are applied.
+
+2. DELETE /api/v1/ticketBooking/{id}
+This operation cancels the booking, deletes entry to BookingDetails table and updates ShowDetails table in 1 transaction.
+
+User-id is needed for both transactions. 
+
+**Non Functional Requirements**
+- Scalability and Availability - For scalability the microservices need to be deployed on public cloud 
+infrastructure like AWS, preferably on managed container services like Fargate.
+
+- Caching - As the platform is upscaled to extend to countries and more cities, browsing through list of 
+theaters, movies etc needs to have caching instead of fetching from database everytime. For this distributed 
+in-memory cache, Redis is a choice.
+
+- Security -  all data inside the system or its part should be protected against malware attacks or 
+unauthorized access. Security NFR can include specific security standards and/or encryption
+methods, types of  malware attacks to fend off, guidelines like no storage of hard coded 
+sensitive information.
+
+- Monetize platform - Theater owners while onboarding their theater onto the platform need to pay 
+'fees' which can be based on multiple variables like number of screens in the theater, theater location etc.
+Also users while booking tickets need to pay a 'convenience' fee for getting the services.
+Advertisements on the platform site(mobile/desktop)
+
+- Integration with payment gateway - Booking Service needs to have integration with payment gateways like RazorPay
 
 TBD :
+Unit test cases
 General cleanup and review of code.
 Log not coming up in console
